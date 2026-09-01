@@ -14,10 +14,10 @@ The task description of the code owner is located in the README files inside the
 
 ## Screenshots of working application
 ### Sign up
-![Files Tab](/images/Screenshot+2026-09-01+122850.png)
+![](/images/Screenshot+2026-09-01+122850.png)
 Successful sign up.
 
-/images/Screenshot 2026-09-01 122850.png
+/images/Screenshot+2026-09-01+122850.png
 Un-successful sign up. (Username already exists)
 
 ### Login
