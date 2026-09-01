@@ -23,8 +23,10 @@ If the username and password match and exist, the website automatically forwards
 Otherwise, a respective error message is displayed describing the problem.
 ![](/images/Screenshot+2026-09-01+122817.png)
 ### Files
-TBA
-
+Files can be uploaded to the homepage by choosing a file and clicking the upload button.
+![](/images/Screenshot+2026-09-01+122319.png)
+They can be downloaded again by pressing the `view` button and deleted by the `delete` button.
+![](/images/Screenshot+2026-09-01+122350.png)
 ### Notes
 TBA
 
