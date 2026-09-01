@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/proxy/8080/css/bootstrap.min.css}">
+
+        <title>Home</title>
+    </head>
+    <body class="p-3 mb-2 bg-light text-black">
+        <div class="container">
+            <div id="logoutDiv">
+                <form th:action="@{/proxy/8080/logout}" method="POST">
+                    <button id="logoutButton" type="submit" class="btn btn-secondary float-right">Logout</button>
+                </form>
+            </div>
+            <div id="contentDiv" style="clear: right;">
+                <nav style="clear: right;">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" th:classappend="${activeTab == null or activeTab == 'files'} ? ' active'" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="true">Files</a>
+                        <a class="nav-item nav-link" th:classappend="${activeTab == 'notes'} ? ' active'" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="true">Notes</a>
+                        <a class="nav-item nav-link" th:classappend="${activeTab == 'credentials'} ? ' active'" id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials" role="tab" aria-controls="nav-credentials" aria-selected="true">Credentials</a>
+                        <!--
+                        <a class="nav-item nav-link active" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="true">Files</a>
+                        <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false">Notes</a>
+                        <a class="nav-item nav-link" id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials" role="tab" aria-controls="nav-credentials" aria-selected="false">Credentials</a>
+                        -->
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade" th:classappend="${activeTab == null or activeTab == 'files'} ? ' show active'" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
+                    <!--<div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">-->
+                        <form th:action="@{/proxy/8080/home/upload}" enctype="multipart/form-data" method="POST">
+                            <div class="container">
+                                <div class="row" style="margin: 1em;">
+                                    <div class="col-sm-2">
+                                        <label for="fileUpload">Upload a New File:</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="submit" class="btn btn-dark" id="uploadButton">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="fileTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%" scope="col"></th>
+                                        <th style="width: 80%" scope="col">File Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <div th:if="${upload_success_msg != null}" class="alert alert-danger" role="alert">
+                                    <span th:text="${upload_success_msg}"></span>
+                                </div>
+                                <th:block th:each="file : ${files}">
+                                    <tr>
+                                        <td>
+                                            <!-- Otherwise i couldnt find a way to make a post request. AFAIK <a> can only send get requests
+                                            <a target="_blank" class="btn btn-success" th:href="@{/proxy/8080/upload}">View</a>
+                                            <a  class="btn btn-danger">Delete</a>
+
+                                            the style="display:inline;"> makes the button appear next to each other (not below)
+                                            -->
+                                            <form action="#" th:action="@{/proxy/8080/home/view}" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-success" name="fileId" th:value="${file.fileId}"> View </button> 
+                                            </form>
+                                            <form action="#" th:action="@{/proxy/8080/home/delete}" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger" name="fileId" th:value="${file.fileId}"> Delete </button> 
+                                            </form>
+                                        </td>
+                                        <th scope="row" th:text="${file.filename}"></th>
+                                    </tr>
+                                
+                                    <tr th:if="${selectedFile != null and selectedFile.fileId == file.fileId}">
+                                        <td></td>
+                                        <td>
+                                        <strong>File ID:</strong>
+                                        <span th:text="${file.fileId}"></span>
+                                        <br>
+                                        <strong>Filename:</strong>
+                                        <span th:text="${file.filename}"></span>
+                                        <br>
+                                        <strong>Content Type:</strong>
+                                        <span th:text="${file.contenttype}"></span>
+                                        <br>                                   
+                                        <strong>File Size:</strong>
+                                        <span th:text="${file.filesize}"></span>
+                                        <br>                                  
+                                        <strong>User ID:</strong>
+                                        <span th:text="${file.userid}"></span>
+                                        <br>
+                                        <strong>File Data Length:</strong>
+                                        <span th:text="${file.filedata != null ? file.filedata.length : 0}"></span>
+                                        bytes
+                                        <br>
+                                        <a th:href="@{/proxy/8080/home}">
+                                            Show less
+                                        </a>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" th:classappend="${activeTab == 'notes'} ? ' show active'" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
+                    <!--<div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">-->
+                        <button id = "add-new-note-button" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                            + Add a New Note
+                        </button>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="userTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%" scope="col"></th>
+                                        <th style="width: 20%" scope="col">Title</th>
+                                        <th style="width: 60%" scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="note : ${notes}">
+                                        <tr>
+                                            <td>
+                                                <form th:action="@{/proxy/8080/note/edit}"
+                                                        method="POST"
+                                                        style="display:inline;">
+
+                                                        <button type="submit"
+                                                                class="btn btn-success edit-note-button"
+                                                                name="noteid"
+                                                                th:value="${note.noteid}">
+                                                            Edit
+                                                        </button>
+
+                                                    </form>
+                                                <form action="#" th:action="@{/proxy/8080/note/delete}" method="POST" style="display:inline;">
+                                                    <button type="submit" 
+                                                    class="btn btn-danger delete-note-button" 
+                                                    name="noteid" 
+                                                    th:value="${note.noteid}"
+                                                    >Delete</button>
+                                                </form>
+                                            </td>
+                                            <th scope="row" th:text="${note.notetitle}">Example Note Title</th>
+                                            <td th:text="${note.notedescription}">Example Note Description </td>
+                                        </tr>
+                                        <tr th:if="${editNote != null and editNote.noteid == note.noteid}">
+                                            <td colspan="3">
+                                                <form th:action="@{/proxy/8080/note/update}" method="POST">
+                                                    <input type="hidden"
+                                                           name="noteId"
+                                                           th:value="${editNote.noteid}">
+                                        
+                                                    <input type="text"
+                                                           name="noteTitle"
+                                                           th:value="${note.notetitle}">
+                                        
+                                                    <input type="text"
+                                                           name="noteDescription"
+                                                           th:value="${note.notedescription}">
+                                                    <button type="submit" id = "save-note-button">
+                                                        Save
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="noteModalLabel">Note</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="#" th:action="@{/proxy/8080/note/upload}" method="POST">
+                                            <input type="hidden" name="noteId" id="note-id">
+                                            <div class="form-group">
+                                                <label for="note-title" class="col-form-label">Title</label>
+                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="note-description" class="col-form-label">Description</label>
+                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                            </div>
+                                            <button id="noteSubmit" type="submit" class="d-none"></button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" th:classappend="${activeTab == 'credentials'} ? ' show active'" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
+                    <!--<div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">-->
+                        <button id = "add-new-credential-button" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
+                            + Add a New Credential
+                        </button>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped" th:object="${credentials}" id="credentialTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%" scope="col"></th>
+                                        <th style="width: 35%" scope="col">URL</th>
+                                        <th style="width: 20%" scope="col">Username</th>
+                                        <th style="width: 25%" scope="col">Password</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="cred : ${credentialsCiphered}">
+                                        <tr>
+                                            <td>
+                                                <form th:action="@{/proxy/8080/pwd/edit}" method="POST" style="display:inline;">
+                                                    <button type="submit" class="btn btn-success edit-credential-button" name="pwdid" th:value="${cred.pwdid}">Edit</button>
+                                                </form>
+                                                <form th:action="@{/proxy/8080/pwd/delete}" method="POST" style="display:inline;">
+                                                    <button type="submit" class="btn btn-danger delete-credential-button" name="pwdid" th:value="${cred.pwdid}">Delete</button>
+                                                </form>                 
+                                            </td>
+                                            <!--
+                                            <td>
+                                                <button type="button" class="btn btn-success">Edit</button>
+                                                <a class="btn btn-danger">Delete</a>
+                                            </td>
+                                            -->
+                                    
+                                            <th scope="row" th:text="${cred.urlfield}"></th>
+                                    
+                                            <td th:text="${cred.usernamefield}"></td>
+                                    
+                                            <td th:text="${cred.passwordcipher}"></td>
+                                        </tr>
+                                        <tr th:if="${editCredential != null and editCredential.pwdid == cred.pwdid}">
+                                            <td colspan="4">
+                                                <form th:action="@{/proxy/8080/pwd/update}" method="POST">
+                                                    <input type="hidden" name="pwdid" th:value="${editCredential.pwdid}">
+                                                    <input id = "edit-credential-url" type="text" name="url" th:value="${cred.urlfield}">
+                                                    <input id = "edit-credential-username" type="text" name="username" th:value="${cred.usernamefield}">
+                                                    <input id = "edit-credential-password" type="text" name="password" th:value="${editCredential.passwordcipher}">
+                                                    <button id = "save-credential-button" type="submit">
+                                                        Save
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal fade" id="credentialModal" tabindex="-1" role="dialog" aria-labelledby="credentialModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="credentialModalLabel">Credential</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="#" method="POST" th:action="@{/proxy/8080/pwd/upload}">
+                                            <input type="hidden" name="credentialId" id="credential-id">
+                                            <div class="form-group">
+                                                <label for="credential-url" class="col-form-label">URL</label>
+                                                <input type="text" name= "url" class="form-control" id="credential-url" maxlength="100" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="credential-username" class="col-form-label">Username</label>
+                                                <input type="text" name= "username" class="form-control" id="credential-username" maxlength="30" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="credential-password" class="col-form-label">Password</label>
+                                                <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                            </div>
+                                            <button id="credentialSubmit" type="submit" class="d-none"></button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/proxy/8080/js/jquery-slim.min.js}"></script>
+        <script th:src="@{/proxy/8080/js/popper.min.js}"></script>
+        <script th:src="@{/proxy/8080/js/bootstrap.min.js}"></script>
+        <!--
+        <script th:src="@{/js/jquery-slim.min.js}"></script>
+        <script th:src="@{/js/popper.min.js}"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+        -->
+        <!--For opening the note modal-->
+        <script type="text/javascript">
+            // For opening the note modal
+            function showNoteModal(noteId, noteTitle, noteDescription) {
+                $('#note-id').val(noteId ? noteId : '');
+                $('#note-title').val(noteTitle ? noteTitle : '');
+                $('#note-description').val(noteDescription ? noteDescription : '');
+                $('#noteModal').modal('show');
+            }
+
+            // For opening the credentials modal
+            function showCredentialModal(credentialId, url, username, password) {
+                $('#credential-id').val(credentialId ? credentialId : '');
+                $('#credential-url').val(url ? url : '');
+                $('#credential-username').val(username ? username : '');
+                $('#credential-password').val(password ? password : '');
+                $('#credentialModal').modal('show');
+            }
+        </script>
+    </body>
+</html>
