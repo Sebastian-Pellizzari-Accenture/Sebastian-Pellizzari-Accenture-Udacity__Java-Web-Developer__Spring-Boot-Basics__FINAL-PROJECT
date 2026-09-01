@@ -37,6 +37,12 @@ They can be changed by clicking the edit button and inserting the new informatio
 And they can also be deleted by pressing the `delete` button.
 ![](/images/Screenshot+2026-09-01+1224538.png)
 
-
 ### Credentials 
-TBA
+Similarily here. Credentials can be added by clicking the `+ Add a New Credential` button.
+![](/images/Screenshot+2026-09-01+122644.png)
+![](/images/Screenshot+2026-09-01+122656.png)
+They can be changed by clicking the edit button and inserting the new information.
+![](/images/Screenshot+2026-09-01+122707.png)
+![](/images/Screenshot+2026-09-01+122741.png)
+And they can also be deleted by pressing the `delete` button.
+![](/images/Screenshot+2026-09-01+1224557.png)
