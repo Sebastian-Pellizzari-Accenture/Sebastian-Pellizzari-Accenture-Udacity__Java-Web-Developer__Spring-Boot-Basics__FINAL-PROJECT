@@ -16,16 +16,12 @@ The task description of the code owner is located in the README files inside the
 ### Sign up
 ![](/images/Screenshot+2026-09-01+122850.png)
 Successful sign up.
-
-/images/Screenshot+2026-09-01+122850.png
+![](/images/Screenshot+2026-09-01+122850.png)
 Un-successful sign up. (Username already exists)
-
 ### Login
 If the username and password match and exist, the website automatically forwards to the homepage.
 Otherwise, a respective error message is displayed describing the problem.
-/images/Screenshot 2026-09-01 122817.png
-
-
+![](/images/Screenshot+2026-09-01+122817.png)
 ### Files
 TBA
 
