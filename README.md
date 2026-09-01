@@ -28,7 +28,15 @@ Files can be uploaded to the homepage by choosing a file and clicking the upload
 They can be downloaded again by pressing the `view` button and deleted by the `delete` button.
 ![](/images/Screenshot+2026-09-01+122350.png)
 ### Notes
-TBA
+Notes can be added by clicking the `+ Add a New Note` button.
+![](/images/Screenshot+2026-09-01+122429.png)
+![](/images/Screenshot+2026-09-01+122442.png)
+They can be changed by clicking the edit button and inserting the new information.
+![](/images/Screenshot+2026-09-01+122514.png)
+![](/images/Screenshot+2026-09-01+122525.png)
+And they can also be deleted by pressing the `delete` button.
+![](/images/Screenshot+2026-09-01+1224538.png)
+
 
 ### Credentials 
 TBA
