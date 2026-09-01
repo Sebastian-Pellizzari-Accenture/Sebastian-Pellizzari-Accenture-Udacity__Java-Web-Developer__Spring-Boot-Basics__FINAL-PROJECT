@@ -5,7 +5,7 @@ The task description of the code owner is located in the README files inside the
 
 `NOTE:` This code was implemented to run in Udacity's workspace. It should be possible to execute the code on a local machine by removing the `/proxy/8080` from the html-file, however the code was not tested on a local machine!
 
-## Competences - Outline copied from [here]()https://learn.udacity.com/nd035?version=6.0.6&partKey=cd0626&lessonKey=ls14002&conceptKey=62eaa587-4357-4304-9729-ce0de62cfa78
+## Competences - Outline copied from [here](https://learn.udacity.com/nd035?version=6.0.6&partKey=cd0626&lessonKey=ls14002&conceptKey=62eaa587-4357-4304-9729-ce0de62cfa78)
 * Basics of `Java server architecture`, dependency management in Java, and how Spring integrates with both.
 * `Core Spring principles`. We'll be covering dependency injection, bean configuration, service development, and server-wide configuration.
 * `Spring MVC and Thymeleaf`, an HTML template engine. We'll talk about Spring controllers, Thymeleaf template attributes, and connecting the two with the MVC pattern.
