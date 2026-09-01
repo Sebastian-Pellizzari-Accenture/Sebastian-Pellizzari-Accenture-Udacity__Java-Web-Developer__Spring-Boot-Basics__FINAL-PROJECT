@@ -45,4 +45,4 @@ They can be changed by clicking the edit button and inserting the new informatio
 ![](/images/Screenshot+2026-09-01+122707.png)
 ![](/images/Screenshot+2026-09-01+122741.png)
 And they can also be deleted by pressing the `delete` button.
-![](/images/Screenshot+2026-09-01+1224557.png)
+![](/images/Screenshot+2026-09-01+122557.png)
